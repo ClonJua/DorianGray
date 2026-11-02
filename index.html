@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>Para Luna</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Courier+Prime&display=swap">
+<style>
+/* Layout: a single nocturnal walk through Wilde's London, top to bottom, one place per section. Deliberately one dark, gaslit look. */
+:root{
+  --night:#0d1512;
+  --night-2:#141f1b;
+  --night-3:#1b2924;
+  --iron:#3b4842;
+  --fog:#c3c0b1;
+  --muted:#8e968b;
+  --gas:#f0b85a;
+  --gas-glow:rgba(240,184,90,.28);
+  --claret:#8c2337;
+  --claret-deep:#5e1423;
+  --carnation:#7cb36f;
+  --paper:#ece2c9;
+  --paper-2:#d9cba8;
+  --ink:#2b211b;
+  --lip-a:#a81c33; --lip-b:#c9304a; --lip-c:#7b1427;
+  --display:"IM Fell English","Iowan Old Style",Georgia,serif;
+  --body:"EB Garamond",Garamond,"Times New Roman",serif;
+  --mono:"Courier Prime","Courier New",monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--night);color:var(--fog);
+  font-family:var(--body);font-size:1.16rem;line-height:1.62;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  overflow-x:hidden;
+}
+.mist{position:fixed;inset:-20%;pointer-events:none;z-index:0;opacity:.55}
+.mist::before,.mist::after{content:"";position:absolute;width:70vmax;height:40vmax;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(195,192,177,.10),transparent);filter:blur(30px);animation:drift 60s linear infinite}
+.mist::before{top:20%;left:-10%}
+.mist::after{top:60%;left:40%;animation-duration:80s;animation-direction:reverse}
+@keyframes drift{from{transform:translateX(-10vw)}to{transform:translateX(30vw)}}
+main,header,footer{position:relative;z-index:1}
+
+.topbar{max-width:1040px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:18px;
+  font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.topbar b{color:var(--gas);font-weight:400;font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit;cursor:pointer}
+.ghost{background:none;border:1px solid var(--iron);border-radius:999px;padding:6px 14px;font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fog)}
+.ghost[aria-pressed="true"]{border-color:var(--gas);color:var(--gas)}
+:focus-visible{outline:2px solid var(--gas);outline-offset:3px}
+
+.sec{max-width:1040px;margin:0 auto;padding-block:clamp(56px,9vw,104px)}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gas);margin:0 0 10px}
+h1,h2{font-family:var(--display);font-weight:400;color:var(--paper);text-wrap:balance;margin:0}
+h1{font-size:clamp(2.5rem,7.4vw,4.9rem);line-height:1.02}
+h1 em{color:var(--gas)}
+h2{font-size:clamp(1.9rem,4.6vw,2.9rem);line-height:1.08;margin-bottom:12px}
+.lede{max-width:60ch;color:var(--fog);margin:0 0 28px}
+.hint{font-family:var(--mono);font-size:.8rem;color:var(--muted);letter-spacing:.04em}
+.fleuron{text-align:center;color:var(--iron);font-size:1.6rem;user-select:none}
+
+/* ---------- Hero / envelope ---------- */
+.hero{display:grid;gap:34px;justify-items:center;text-align:center;padding-top:clamp(36px,7vw,72px)}
+.hero .lede{margin-inline:auto}
+.envelope{position:relative;width:min(440px,100%);aspect-ratio:1.6;background:linear-gradient(160deg,var(--paper),var(--paper-2));
+  border-radius:4px;box-shadow:0 30px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.2);cursor:pointer;perspective:900px;border:none;padding:0}
+.envelope::after{content:"";position:absolute;inset:0;background:linear-gradient(to top right,transparent 49.6%,rgba(43,33,27,.12) 50%,transparent 50.4%),
+  linear-gradient(to top left,transparent 49.6%,rgba(43,33,27,.12) 50%,transparent 50.4%);pointer-events:none}
+.flap{position:absolute;inset:0 0 auto;height:62%;background:linear-gradient(180deg,#e2d5b4,var(--paper-2));clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;transition:transform .9s cubic-bezier(.6,.05,.2,1);z-index:2;filter:drop-shadow(0 4px 3px rgba(0,0,0,.2))}
+.seal{position:absolute;left:50%;top:62%;width:82px;height:82px;margin:-41px 0 0 -41px;z-index:3;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#b23a50,var(--claret) 45%,var(--claret-deep));
+  box-shadow:0 4px 10px rgba(0,0,0,.45),inset 0 0 0 6px rgba(0,0,0,.12);display:grid;place-items:center;transition:transform .7s,opacity .7s}
+.seal svg{width:44px;height:44px;opacity:.75}
+.env-label{position:absolute;bottom:12px;left:0;right:0;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);opacity:.6;z-index:3}
+.envelope.open .flap{transform:rotateX(180deg)}
+.envelope.open .seal{transform:translateY(-40px) rotate(-30deg) scale(.6);opacity:0}
+.envelope.open .env-label{opacity:0}
+.letter-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows 1s ease;width:min(640px,100%)}
+.letter-wrap.open{grid-template-rows:1fr}
+.letter-wrap>div{overflow:hidden;min-width:0}
+.paper{background:linear-gradient(175deg,var(--paper),var(--paper-2));color:var(--ink);border-radius:3px;padding:clamp(22px,5vw,44px);text-align:left;
+  box-shadow:0 20px 50px -20px rgba(0,0,0,.8)}
+.paper p{margin:0 0 14px}
+.paper blockquote{margin:20px 0;padding:0 0 0 18px;border-left:2px solid var(--claret);font-family:var(--display);font-style:italic;font-size:1.32rem;line-height:1.4}
+.paper cite{display:block;font-family:var(--mono);font-style:normal;font-size:.74rem;letter-spacing:.08em;color:var(--claret);margin-top:10px}
+.sign{font-family:var(--display);font-style:italic;font-size:1.25rem;text-align:right;margin:0}
+
+/* ---------- Fog ---------- */
+.fogbox{position:relative;min-height:320px;border-radius:6px;overflow:hidden;background:radial-gradient(ellipse at 50% 120%,rgba(240,184,90,.18),transparent 60%),var(--night-2);
+  display:grid;place-items:center;border:1px solid var(--iron)}
+.fogtext{padding:40px clamp(18px,6vw,64px);text-align:center;max-width:46ch}
+.fogtext p{font-family:var(--display);font-size:clamp(1.3rem,3vw,1.75rem);line-height:1.38;color:var(--paper);margin:0 0 14px}
+.fogtext small{font-family:var(--mono);font-size:.76rem;letter-spacing:.06em;color:var(--gas)}
+#fog{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;transition:opacity 1.4s}
+#fog.gone{opacity:0;pointer-events:none}
+.row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px}
+
+/* ---------- Lamps ---------- */
+.street{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px 14px;position:relative;
+  padding:20px 12px 0;border-radius:6px;background:linear-gradient(180deg,transparent,rgba(240,184,90,var(--street-glow,0)) 120%);transition:background 2s}
+.lampitem{display:grid;grid-template-rows:auto 1fr;gap:8px;min-width:0}
+.lampbtn{background:none;border:none;padding:0;display:grid;justify-items:center;position:relative}
+.halo{position:absolute;top:-6px;left:50%;width:150px;height:150px;margin-left:-75px;border-radius:50%;
+  background:radial-gradient(closest-side,var(--gas-glow),transparent);opacity:0;transition:opacity .8s;pointer-events:none}
+.lampsvg{width:64px;height:150px;transform-origin:50% 100%}
+.lampsvg .glass{fill:#1f2c27;transition:fill .6s}
+.lampitem.lit .glass{fill:var(--gas)}
+.lampitem.lit .halo{opacity:1}
+.lampitem.lit .lampsvg{filter:drop-shadow(0 0 10px var(--gas-glow))}
+.lampcard{border-top:1px solid var(--iron);padding-top:10px;min-width:0}
+.lampcard h3{font-family:var(--display);font-weight:400;font-size:1.3rem;color:var(--paper);margin:0;line-height:1.15}
+.lampcard .note{font-size:1rem;line-height:1.5;color:var(--fog);margin:6px 0 0;max-height:0;overflow:hidden;opacity:0;transition:max-height .9s ease,opacity .7s}
+.lampitem.lit .note{max-height:22em;opacity:1}
+.lampcard .tease{font-family:var(--mono);font-size:.72rem;color:var(--muted);letter-spacing:.06em}
+.lampitem.lit .tease{display:none}
+.counter{font-family:var(--mono);font-size:.82rem;letter-spacing:.1em;color:var(--gas);font-variant-numeric:tabular-nums}
+.streetdone{margin-top:26px;font-family:var(--display);font-style:italic;font-size:1.4rem;color:var(--gas);min-height:1.6em;text-align:center}
+
+/* ---------- Gramophone ---------- */
+.musicgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:center}
+@media (max-width:720px){.musicgrid{grid-template-columns:1fr}}
+.player{position:relative;display:grid;place-items:center;padding:20px}
+.platter{width:min(260px,70vw);aspect-ratio:1;border-radius:50%;
+  background:repeating-radial-gradient(circle,#111 0 2px,#1d1d1d 2px 4px);box-shadow:0 0 0 10px var(--iron),0 20px 40px rgba(0,0,0,.6);
+  display:grid;place-items:center;max-width:100%}
+.platter.spin{animation:spin 1.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.vlabel{width:38%;aspect-ratio:1;border-radius:50%;background:var(--rec,var(--claret));display:grid;place-items:center;text-align:center;
+  font-family:var(--display);font-size:clamp(.7rem,2vw,.9rem);line-height:1.1;color:var(--paper);padding:8px;position:relative}
+.vlabel::after{content:"";position:absolute;width:8px;height:8px;border-radius:50%;background:var(--night)}
+.vlabel span{transform:translateY(-14px)}
+.shelf{display:grid;gap:12px}
+.rec{display:flex;gap:14px;align-items:center;text-align:left;background:var(--night-2);border:1px solid var(--iron);border-radius:8px;padding:12px 14px}
+.rec[aria-pressed="true"]{border-color:var(--gas)}
+.rec i{flex:none;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle,var(--rec) 0 30%,#151515 31% 100%)}
+.rec strong{display:block;font-family:var(--display);font-weight:400;font-size:1.2rem;color:var(--paper);line-height:1.2}
+.rec small{color:var(--muted);font-size:.95rem}
+.nowplaying{font-size:1.02rem;min-height:3.2em;margin:10px 0 0}
+.nowplaying a{color:var(--gas)}
+
+/* dancing */
+@media (prefers-reduced-motion:no-preference){
+  .dance .lampsvg{animation:sway .5s ease-in-out infinite alternate}
+  .dance h2{animation:bob .42s ease-in-out infinite alternate}
+  .dance .rec i{animation:spin 1s linear infinite}
+}
+@keyframes sway{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+
+/* ---------- Portrait ---------- */
+.portrait{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:clamp(24px,5vw,56px);align-items:center}
+@media (max-width:720px){.portrait{grid-template-columns:1fr}}
+.frame{padding:22px;background:linear-gradient(135deg,#7a5a22,#d9b25e 25%,#8a6526 50%,#e3c26f 75%,#6b4e1c);border-radius:3px;
+  box-shadow:0 26px 50px -18px rgba(0,0,0,.8),inset 0 0 0 3px rgba(0,0,0,.25),inset 0 0 0 9px rgba(255,230,160,.18);max-width:100%}
+.frame canvas{display:block;width:100%;aspect-ratio:4/5;background:var(--night-3);box-shadow:inset 0 0 30px rgba(0,0,0,.8)}
+.quote{font-family:var(--display);font-size:clamp(1.5rem,3.4vw,2.15rem);line-height:1.25;color:var(--paper);margin:0 0 12px;min-height:3.8em;transition:opacity .4s}
+.quote.fade{opacity:0}
+.qsrc{font-family:var(--mono);font-size:.76rem;letter-spacing:.08em;color:var(--gas)}
+.btn{background:var(--gas);color:var(--night);border:none;border-radius:999px;padding:11px 22px;font-family:var(--mono);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase}
+.btn.alt{background:none;color:var(--fog);border:1px solid var(--iron)}
+
+/* ---------- Holloway letter ---------- */
+.candlewrap{position:relative;border-radius:3px;overflow:hidden;max-width:720px}
+.candlewrap .paper{font-size:1.1rem}
+.candlewrap .paper p{margin:0 0 16px}
+.dark{position:absolute;inset:0;pointer-events:none;transition:opacity 1.2s;
+  background:radial-gradient(circle 150px at var(--x,50%) var(--y,22%),rgba(8,12,10,0) 0,rgba(8,12,10,.25) 45%,rgba(8,12,10,.965) 100%)}
+.candlewrap.lit .dark{opacity:0}
+.flame{position:absolute;left:var(--x,50%);top:var(--y,22%);width:12px;height:22px;margin:-30px 0 0 -6px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+  background:radial-gradient(circle at 50% 70%,#fff3c4,var(--gas) 55%,transparent 75%);pointer-events:none;filter:blur(.5px);animation:flick .18s infinite alternate}
+.candlewrap.lit .flame{opacity:0}
+@keyframes flick{from{transform:scale(1)}to{transform:scale(1.08,.94)}}
+.dateline{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;color:var(--claret);margin-bottom:18px!important}
+
+/* ---------- Tomb ---------- */
+.tombwrap{display:grid;justify-items:center;gap:14px}
+.tomb{position:relative;width:min(560px,100%);aspect-ratio:1.45;border-radius:10px 10px 4px 4px;cursor:crosshair;overflow:hidden;
+  background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.08),transparent 40%),
+  repeating-linear-gradient(115deg,rgba(255,255,255,.02) 0 3px,transparent 3px 9px),linear-gradient(180deg,#a9a69b,#87847a 70%,#6f6c63);
+  box-shadow:0 30px 50px -20px rgba(0,0,0,.85),inset 0 -14px 0 rgba(0,0,0,.18);display:grid;place-items:center;touch-action:manipulation}
+.engrave{text-align:center;color:#6b675e;text-shadow:0 1px 0 rgba(255,255,255,.35),0 -1px 0 rgba(0,0,0,.35);pointer-events:none;user-select:none}
+.engrave b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(1.8rem,6vw,3rem);letter-spacing:.14em}
+.engrave span{font-family:var(--display);font-size:1.1rem;letter-spacing:.3em}
+.kiss{position:absolute;width:46px;height:30px;pointer-events:none;animation:press .35s ease-out}
+@keyframes press{from{transform:var(--r) scale(1.6);opacity:0}to{transform:var(--r) scale(1);opacity:.85}}
+.carnation{position:absolute;right:6%;bottom:5%;width:34px;height:52px;background:none;border:none;padding:0;cursor:pointer;opacity:.85}
+.carnation:hover{opacity:1}
+.secret{max-width:520px;text-align:center;font-family:var(--display);font-style:italic;font-size:1.3rem;color:var(--carnation)}
+
+/* ---------- Bookshelf ---------- */
+.shelfrow{display:flex;gap:10px;align-items:flex-end;padding:0 10px;border-bottom:10px solid #3a2a1c;flex-wrap:wrap}
+.spine{width:64px;height:var(--h,220px);border:none;border-radius:3px 3px 0 0;background:var(--c);color:var(--paper);
+  writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--display);font-size:1.02rem;letter-spacing:.04em;padding:12px 0;
+  box-shadow:inset 4px 0 0 rgba(255,255,255,.08),inset -4px 0 0 rgba(0,0,0,.25);transition:transform .3s}
+.spine:hover,.spine[aria-pressed="true"]{transform:rotate(180deg) translateY(10px)}
+.spine[aria-pressed="true"]{outline:1px solid var(--gas)}
+.booknote{margin-top:22px;background:var(--night-2);border:1px solid var(--iron);border-radius:6px;padding:20px 22px;max-width:640px}
+.booknote h3{font-family:var(--display);font-weight:400;color:var(--paper);font-size:1.45rem;margin:0 0 6px}
+.booknote p{margin:0}
+
+/* ---------- Licence card (unused) ---------- */
+.licence{position:relative;max-width:640px;background:linear-gradient(170deg,var(--paper),var(--paper-2));color:var(--ink);padding:clamp(24px,5vw,44px);
+  border-radius:3px;outline:2px solid var(--ink);outline-offset:-12px;box-shadow:0 20px 50px -20px rgba(0,0,0,.8)}
+.licence h3{font-family:var(--display);font-weight:400;font-size:clamp(1.6rem,4vw,2.2rem);margin:0 0 4px;text-align:center}
+.licence .no{text-align:center;font-family:var(--mono);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 18px}
+.licence p{margin:0 0 14px}
+.stamp{position:absolute;right:20px;bottom:16px;width:86px;height:86px;border-radius:50%;border:3px double var(--claret);color:var(--claret);
+  display:grid;place-items:center;text-align:center;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;line-height:1.2;transform:rotate(-14deg);opacity:.8}
+.verdict{min-height:2.8em;font-family:var(--display);font-style:italic;font-size:1.3rem;color:var(--gas);margin:16px 0 0}
+
+/* ---------- Invitation ---------- */
+.invite{position:relative;max-width:560px;margin:0 auto;background:linear-gradient(170deg,var(--paper),var(--paper-2));color:var(--ink);text-align:center;
+  padding:clamp(28px,6vw,52px);border-radius:4px;box-shadow:0 30px 60px -20px rgba(0,0,0,.85);border:1px solid rgba(0,0,0,.2)}
+.invite::before{content:"";position:absolute;inset:10px;border:1px solid rgba(43,33,27,.35);pointer-events:none}
+.invite .small{font-family:var(--mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;margin:0 0 14px}
+.invite h3{font-family:var(--display);font-weight:400;font-size:clamp(1.9rem,5vw,2.6rem);margin:0 0 12px;line-height:1.1}
+.invite p{margin:0 0 18px}
+.invite .row{justify-content:center}
+.invite .btn{background:var(--claret);color:var(--paper)}
+.invite .btn.alt{color:var(--ink);border-color:rgba(43,33,27,.4)}
+.accepted{position:absolute;top:22px;right:14px;transform:rotate(12deg);border:3px solid var(--claret);color:var(--claret);font-family:var(--mono);
+  letter-spacing:.2em;padding:4px 10px;font-size:.9rem;opacity:0;transition:opacity .4s,transform .4s}
+.invite.yes .accepted{opacity:.85;transform:rotate(12deg) scale(1.05)}
+.reply{min-height:3em;font-family:var(--display);font-style:italic;font-size:1.2rem;margin:16px 0 0}
+.petal{position:fixed;top:-30px;width:18px;height:18px;border-radius:50% 50% 50% 0;background:var(--carnation);z-index:20;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+
+footer{max-width:1040px;margin:0 auto;padding-block:40px 60px;text-align:center;color:var(--muted);font-size:.98rem}
+
+@media (prefers-reduced-motion:reduce){
+  .mist::before,.mist::after,.platter.spin,.flame{animation:none}
+  *{transition-duration:.01s!important}
+}
+</style>
+
+<div class="mist" aria-hidden="true"></div>
+
+<header class="topbar">
+  <span>Londres · <b id="clock">--:--</b></span>
+  <button class="ghost" id="rainBtn" aria-pressed="false">Oír la lluvia</button>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="sec hero">
+    <div>
+      <p class="eyebrow">Correo nocturno · Chelsea, Londres</p>
+      <h1>Para <em>Luna</em></h1>
+    </div>
+    <p class="lede">Hice esto con cosas que me recuerdan a ti, en el Londres de Oscar Wilde.</p>
+    <button class="envelope" id="envelope" aria-label="Romper el lacre y abrir la carta" aria-expanded="false">
+      <span class="flap" aria-hidden="true"></span>
+      <span class="seal" aria-hidden="true">
+        <svg viewBox="0 0 40 40"><g fill="none" stroke="#ecd9b8" stroke-width="1.6"><circle cx="20" cy="15" r="6"/><circle cx="14" cy="18" r="5"/><circle cx="26" cy="18" r="5"/><path d="M20 22v13M20 30c-4-2-7-1-8 1M20 28c4-2 7-1 8 1"/></g></svg>
+      </span>
+      <span class="env-label">Rompe el lacre</span>
+    </button>
+    <div class="letter-wrap" id="letterWrap">
+      <div>
+        <article class="paper">
+          <p>El primer libro que leí por recomendación tuya fue <i>El retrato de Dorian Gray</i>, y los dos coincidimos en esta frase:</p>
+          <blockquote>«Cuando alguien me gusta muchísimo, nunca digo su nombre a nadie. Es como entregar una parte de esa persona. Con el tiempo he llegado a amar en secreto.»
+            <cite>Basil Hallward · El retrato de Dorian Gray, capítulo I</cite></blockquote>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="fleuron" aria-hidden="true">❦</div>
+
+  <!-- FOG -->
+  <section class="sec" id="niebla">
+    <p class="eyebrow">Orillas del Támesis · Niebla</p>
+    <h2>Debajo de la niebla</h2>
+    <p class="lede">Pasa el dedo o el cursor por la niebla.</p>
+    <div class="fogbox">
+      <div class="fogtext">
+        <p>Mostrarle a las personas tu lado amable puede ser sanador para ambos. Y en lo que hacemos por los demás reflejamos a quienes amamos y ya no están con nosotros.</p>
+        <small>Lo que me dijiste de tu novela favorita. Se me quedó grabado.</small>
+      </div>
+      <canvas id="fog" aria-hidden="true"></canvas>
+    </div>
+    <div class="row"><button class="ghost" id="clearFog">Despejar de golpe</button><span class="hint" id="fogStatus"></span></div>
+  </section>
+
+  <div class="fleuron" aria-hidden="true">❦</div>
+
+  <!-- LAMPS -->
+  <section class="sec" id="farolas">
+    <p class="eyebrow">Piccadilly, de noche</p>
+    <h2>Ocho farolas</h2>
+    <p class="lede">Enciende cada farola.</p>
+    <p class="counter" id="lampCount" aria-live="polite">0 de 8 encendidas</p>
+    <div class="street" id="street"></div>
+    <p class="streetdone" id="streetDone" aria-live="polite"></p>
+  </section>
+
+  <div class="fleuron" aria-hidden="true">❦</div>
+
+  <!-- MUSIC -->
+  <section class="sec" id="musica">
+    <p class="eyebrow">Salón de música · Gramófono</p>
+    <h2>Pon un disco</h2>
+    <p class="lede">Canciones que me recuerdan a ti porque sí jaja.</p>
+    <div class="musicgrid">
+      <div class="player">
+        <div class="platter" id="platter"><div class="vlabel" id="vlabel"><span>Elige un disco</span></div></div>
+      </div>
+      <div>
+        <div class="shelf" id="shelf"></div>
+        <p class="nowplaying" id="nowPlaying" aria-live="polite"></p>
+        <div class="row"><button class="ghost" id="danceBtn" aria-pressed="false">Bailar</button></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fleuron" aria-hidden="true">❦</div>
+
+  <!-- PORTRAIT -->
+  <section class="sec" id="retrato">
+    <p class="eyebrow">Estudio de Basil Hallward</p>
+    <h2>El retrato</h2>
+    <p class="lede">Frases que subrayé. Cada vez que lo miras, el retrato cambia.</p>
+    <div class="portrait">
+      <div class="frame"><canvas id="painting" width="400" height="500" aria-label="Retrato abstracto pintado al azar" role="img"></canvas></div>
+      <div>
+        <p class="quote" id="quote"></p>
+        <p class="qsrc">Oscar Wilde · El retrato de Dorian Gray</p>
+        <div class="row"><button class="btn" id="repaint">Mirar otra vez</button></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="fleuron" aria-hidden="true">❦</div>
+
+  <!-- HOLLOWAY -->
+  <section class="sec" id="carta">
+    <p class="eyebrow">Prisión de Holloway · 29 de abril de 1895</p>
+    <h2>La carta desde la cárcel</h2>
+    <p class="lede">La carta que Wilde le escribió a su amor desde la cárcel. Mueve la vela para leerla.</p>
+    <div class="candlewrap" id="candle">
+      <article class="paper">
+        <p class="dateline">H. M. Prison, Holloway · lunes por la noche</p>
+        <p>Mi muchacho más querido:</p>
+        <p>Si la prisión y la deshonra han de ser mi destino, piensa que mi amor por ti, y esta idea, esta creencia aún más divina de que tú también me amas, me sostendrán en mi desdicha y me harán capaz, espero, de soportar mi pena con paciencia.</p>
+        <p>[…] Tu amor tiene alas anchas y es fuerte; tu amor me llega a través de los barrotes de mi prisión y me consuela; tu amor es la luz de todas mis horas.</p>
+        <p>[…] ¡Oh, espérame! ¡Espérame! Soy ahora, como siempre desde el día en que nos conocimos, devotamente tuyo, con un amor inmortal.</p>
+        <p class="sign">Oscar</p>
+      </article>
+      <div class="dark" aria-hidden="true"></div>
+      <div class="flame" aria-hidden="true"></div>
+    </div>
+    <div class="row"><button class="ghost" id="lightAll">Encender todas las velas</button></div>
+  </section>
+
+  <div class="fleuron" aria-hidden="true">❦</div>
+
+  <!-- TOMB -->
+  <section class="sec" id="tumba">
+    <p class="eyebrow">Excursión a París · Cementerio de Père-Lachaise</p>
+    <h2>La tumba llena de besos</h2>
+    <p class="lede">Durante años la gente cubrió la tumba de Wilde con besos de labial, y desde 2011 la protege un cristal. Ojalá ir algún día a dejarle uno.</p>
+    <div class="tombwrap">
+      <div class="tomb" id="tomb" role="button" tabindex="0" aria-label="Dejar un beso en la tumba">
+        <div class="engrave"><b>OSCAR WILDE</b><span>1854 – 1900</span></div>
+        <button class="carnation" id="carnation" aria-label="Un clavel verde">
+          <svg viewBox="0 0 34 52" aria-hidden="true"><path d="M17 22v28" stroke="#3f6b38" stroke-width="2"/><path d="M17 38c-5-4-10-3-12 0 4 2 9 2 12 0z" fill="#4f8445"/>
+            <g fill="#7cb36f"><circle cx="17" cy="12" r="7"/><circle cx="10" cy="15" r="6"/><circle cx="24" cy="15" r="6"/><circle cx="13" cy="7" r="5"/><circle cx="21" cy="7" r="5"/></g>
+            <g fill="#5b9a50"><circle cx="17" cy="14" r="3"/><circle cx="12" cy="11" r="2"/><circle cx="22" cy="11" r="2"/></g></svg>
+        </button>
+      </div>
+      
+      <p class="secret" id="secret" hidden></p>
+    </div>
+  </section>
+
+  <div class="fleuron" aria-hidden="true">❦</div>
+
+  <!-- BOOKS -->
+  <section class="sec" id="libros">
+    <p class="eyebrow">Biblioteca del 34 de Tite Street</p>
+    <h2>La estantería</h2>
+    <p class="lede">Wilde vivió en Tite Street, en Chelsea. Estos son nuestros libros.</p>
+    <div class="shelfrow" id="books"></div>
+    <div class="booknote" id="bookNote" aria-live="polite"></div>
+  </section>
+
+  <div class="fleuron" aria-hidden="true">❦</div>
+
+  <!-- INVITATION -->
+  <section class="sec" id="invitacion">
+    <p class="eyebrow" style="text-align:center">West End · Teatros y restaurantes</p>
+    <div class="invite" id="invite">
+      <span class="accepted">ACEPTADA</span>
+      <p class="small">Invitación</p>
+      <h3>¿Teatro o comida?</h3>
+      <p>Te invito al teatro o a comer, lo que prefieras.</p>
+      <p><i>Sin presión. Aunque Wilde decía que la única manera de librarse de una tentación es ceder a ella.</i></p>
+      <div class="row">
+        <button class="btn" id="yesTheatre">Teatro</button>
+        <button class="btn" id="yesFood">Comer</button>
+      </div>
+      <p class="reply" id="reply" aria-live="polite"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Wilde llevaba un clavel verde en la solapa para que los suyos lo reconocieran. Hay uno escondido en esta página.</p>
+</footer>
+
+<script>
+(() => {
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = s => document.querySelector(s);
+
+/* London clock */
+const fmt = new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/London',hour:'2-digit',minute:'2-digit'});
+const tick = () => { $('#clock').textContent = fmt.format(new Date()); };
+tick(); setInterval(tick, 20000);
+
+/* Audio: rain + Westminster chime, synthesized */
+let ac, rain;
+const getAC = () => { if (!ac) { const C = window.AudioContext || window.webkitAudioContext; if (C) ac = new C(); } if (ac && ac.state === 'suspended') ac.resume(); return ac; };
+function startRain(){
+  const a = getAC(); if (!a) return;
+  const len = a.sampleRate * 3, buf = a.createBuffer(1, len, a.sampleRate), d = buf.getChannelData(0);
+  let last = 0;
+  for (let i = 0; i < len; i++){ const w = Math.random()*2-1; last = (last + 0.03*w)/1.03; d[i] = last*3 + w*0.06; }
+  const src = a.createBufferSource(); src.buffer = buf; src.loop = true;
+  const lp = a.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1800;
+  const g = a.createGain(); g.gain.value = 0; g.gain.linearRampToValueAtTime(0.5, a.currentTime + 1.5);
+  src.connect(lp).connect(g).connect(a.destination); src.start();
+  rain = {src, g};
+}
+function stopRain(){ if (!rain) return; const a = ac; rain.g.gain.linearRampToValueAtTime(0, a.currentTime + .8); const s = rain.src; setTimeout(()=>{ try{s.stop()}catch(e){} }, 900); rain = null; }
+$('#rainBtn').addEventListener('click', e => {
+  const on = e.currentTarget.getAttribute('aria-pressed') !== 'true';
+  e.currentTarget.setAttribute('aria-pressed', on); e.currentTarget.textContent = on ? 'Silenciar la lluvia' : 'Oír la lluvia';
+  on ? startRain() : stopRain();
+});
+function chime(){
+  const a = getAC(); if (!a) return;
+  const notes = [329.63, 261.63, 293.66, 196.00];
+  notes.forEach((f, i) => {
+    const t = a.currentTime + i * 0.75;
+    [1, 2.76, 5.4].forEach((m, k) => {
+      const o = a.createOscillator(), g = a.createGain();
+      o.frequency.value = f * m; o.type = 'sine';
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime([0.22,0.06,0.025][k], t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 2.6);
+      o.connect(g).connect(a.destination); o.start(t); o.stop(t + 2.7);
+    });
+  });
+}
+
+/* Envelope */
+const env = $('#envelope');
+env.addEventListener('click', () => {
+  env.classList.add('open'); env.setAttribute('aria-expanded','true');
+  setTimeout(() => $('#letterWrap').classList.add('open'), reduce ? 0 : 500);
+});
+
+/* Fog */
+const fog = $('#fog'), fctx = fog.getContext('2d');
+let fogDone = false, strokes = 0;
+function paintFog(){
+  if (fogDone) return;
+  const r = fog.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+  fog.width = Math.max(1, r.width * dpr); fog.height = Math.max(1, r.height * dpr);
+  fctx.globalCompositeOperation = 'source-over';
+  const g = fctx.createLinearGradient(0, 0, 0, fog.height);
+  g.addColorStop(0, 'rgba(120,125,118,.97)'); g.addColorStop(1, 'rgba(150,150,140,.98)');
+  fctx.fillStyle = g; fctx.fillRect(0, 0, fog.width, fog.height);
+  for (let i = 0; i < 70; i++){
+    const x = Math.random()*fog.width, y = Math.random()*fog.height, rr = (40 + Math.random()*140) * dpr;
+    const rg = fctx.createRadialGradient(x, y, 0, x, y, rr);
+    const light = Math.random() > .5;
+    rg.addColorStop(0, light ? 'rgba(205,205,195,.35)' : 'rgba(80,86,80,.3)'); rg.addColorStop(1, 'rgba(0,0,0,0)');
+    fctx.fillStyle = rg; fctx.fillRect(x - rr, y - rr, rr*2, rr*2);
+  }
+}
+function wipe(x, y){
+  const dpr = fog.width / fog.getBoundingClientRect().width, R = 48 * dpr;
+  fctx.globalCompositeOperation = 'destination-out';
+  const rg = fctx.createRadialGradient(x*dpr, y*dpr, 0, x*dpr, y*dpr, R);
+  rg.addColorStop(0, 'rgba(0,0,0,1)'); rg.addColorStop(.6, 'rgba(0,0,0,.6)'); rg.addColorStop(1, 'rgba(0,0,0,0)');
+  fctx.fillStyle = rg; fctx.beginPath(); fctx.arc(x*dpr, y*dpr, R, 0, Math.PI*2); fctx.fill();
+  if (++strokes % 15 === 0) checkFog();
+}
+function checkFog(){
+  const step = 24, data = fctx.getImageData(0, 0, fog.width, fog.height).data;
+  let clear = 0, total = 0;
+  for (let y = 0; y < fog.height; y += step) for (let x = 0; x < fog.width; x += step){ total++; if (data[(y*fog.width + x)*4 + 3] < 60) clear++; }
+  if (clear / total > 0.45) finishFog();
+}
+function finishFog(){ if (fogDone) return; fogDone = true; fog.classList.add('gone');  }
+let wiping = false;
+const pos = e => { const r = fog.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+fog.addEventListener('pointerdown', e => { wiping = true; fog.setPointerCapture(e.pointerId); wipe(...pos(e)); });
+fog.addEventListener('pointermove', e => { if (wiping || e.pointerType === 'mouse') wipe(...pos(e)); });
+fog.addEventListener('pointerup', () => wiping = false);
+fog.addEventListener('pointercancel', () => wiping = false);
+$('#clearFog').addEventListener('click', finishFog);
+paintFog(); addEventListener('resize', () => { if (!fogDone && strokes === 0) paintFog(); });
+
+/* Lamps */
+const lamps = [
+  {t:'Mac Miller', n:'Literalmente Mac fue nuestra razón de hablarnos y competir en equal JAJAJ.'},
+  {t:'Normal People', n:'Esto es depresión pura y dura JAJAJ, me dejaste un trauma con eso.'},
+  {t:'Love Through a Prism', n:'Creo que sí te la acabastee, es muy buenaaa.'},
+  {t:'54 Ultra', n:'Creo que también los escuchaste en el carro con tu madre, espero te haya gustado.'},
+  {t:'Gustavo Cerati', n:'Cerati es tu alma gemela, ¿no? Se murió antes de saberlo. Se me olvidó felicitarte en tu cumple, un día antes o después del de él.'},
+  {t:'Hamnet', n:'Amé esa peli, lit sentía que estaba contigo viéndola. Solo quería que acabara para contarte qué pasó.'},
+  {t:'The Office', n:'Llevo como 3 caps pero está muyyy chistosaa, ya sé por qué la amas.'},
+  {t:'Bailar', n:'Y bailarrr, no creíamos que ninguno de los dos sabía bailar.'}
+];
+const lampSVG = `<svg class="lampsvg" viewBox="0 0 60 150" aria-hidden="true">
+  <rect x="27" y="58" width="6" height="84" fill="#3b4842"/><rect x="20" y="140" width="20" height="8" rx="1" fill="#3b4842"/>
+  <rect x="23" y="56" width="14" height="5" fill="#46554e"/><path d="M18 20h24l-6-9H24z" fill="#46554e"/><circle cx="30" cy="8" r="3" fill="#46554e"/>
+  <rect class="glass" x="20" y="20" width="20" height="28"/><path d="M20 20v28M40 20v28M30 20v28" stroke="#46554e" stroke-width="1.5"/>
+  <path d="M19 48h22l-5 8H24z" fill="#46554e"/></svg>`;
+const street = $('#street'); let lit = 0;
+lamps.forEach((l, i) => {
+  const item = document.createElement('div'); item.className = 'lampitem';
+  item.innerHTML = `<button class="lampbtn" aria-label="Encender la farola: ${l.t}"><span class="halo"></span>${lampSVG}</button>
+    <div class="lampcard"><h3>${l.t}</h3><span class="tease">Farola apagada</span><p class="note">${l.n}</p></div>`;
+  item.querySelector('button').addEventListener('click', e => {
+    if (item.classList.contains('lit')) return;
+    item.classList.add('lit'); e.currentTarget.setAttribute('aria-label', `${l.t}: encendida`); lit++;
+    $('#lampCount').textContent = `${lit} de 8 encendidas`;
+    street.style.setProperty('--street-glow', (lit/8*0.22).toFixed(3));
+    if (i === 7) dance(4200);
+    if (lit === 8){ $('#streetDone').textContent = 'Todas encendidas.'; chime(); }
+  });
+  street.appendChild(item);
+});
+
+/* Dance */
+let danceTimer;
+function dance(ms){
+  document.body.classList.add('dance'); clearTimeout(danceTimer);
+  if (ms) danceTimer = setTimeout(() => { if ($('#danceBtn').getAttribute('aria-pressed') !== 'true') document.body.classList.remove('dance'); }, ms);
+}
+$('#danceBtn').addEventListener('click', e => {
+  const on = e.currentTarget.getAttribute('aria-pressed') !== 'true';
+  e.currentTarget.setAttribute('aria-pressed', on); e.currentTarget.textContent = on ? 'Parar (si puedes)' : 'Bailar';
+  on ? dance() : document.body.classList.remove('dance');
+});
+
+/* Records */
+const records = [
+  {a:'Coffee & TV', s:'Blur', c:'#3d6b8c', q:'Coffee & TV Blur'},
+  {a:'Grand Finale', s:'Mac Miller', c:'#6f5a2c', q:'Grand Finale Mac Miller'},
+  {a:'Congratulations', s:'Mac Miller', c:'#4f7a52', q:'Congratulations Mac Miller'},
+  {a:'Té para tres', s:'Soda Stereo · Cerati', c:'#8c2337', q:'Té para tres Soda Stereo'}
+];
+const shelf = $('#shelf'), platter = $('#platter'), vlabel = $('#vlabel');
+records.forEach(r => {
+  const b = document.createElement('button'); b.className = 'rec'; b.setAttribute('aria-pressed','false'); b.style.setProperty('--rec', r.c);
+  b.innerHTML = `<i aria-hidden="true"></i><span><strong>${r.a}</strong><small>${r.s}</small></span>`;
+  b.addEventListener('click', () => {
+    shelf.querySelectorAll('.rec').forEach(x => x.setAttribute('aria-pressed','false')); b.setAttribute('aria-pressed','true');
+    vlabel.style.setProperty('--rec', r.c); vlabel.innerHTML = `<span>${r.a}</span>`;
+    platter.classList.add('spin');
+    $('#nowPlaying').innerHTML = `Sonando: ${r.a}, ${r.s}. <a href="https://open.spotify.com/search/${encodeURIComponent(r.q)}" target="_blank" rel="noopener">Escuchar en Spotify</a>`;
+  });
+  shelf.appendChild(b);
+});
+
+/* Portrait */
+const quotes = [
+  '¿Cómo era que un extraño le había hecho descubrirse a sí mismo?',
+  'Encuentros breves, historias largas.',
+  'La vida era la primera y la más grande de las artes, y todas las demás no eran más que una preparación para ella.',
+  'Le pareció que había algo trágico en una amistad tan cercana al amor.',
+  'La diferencia entre aparentar algo y serlo de verdad.'
+];
+let qi = -1;
+const cv = $('#painting'), pc = cv.getContext('2d');
+const pal = ['#8c2337','#f0b85a','#7cb36f','#2e4a5a','#d9cba8','#5e1423','#3b4842'];
+function paint(){
+  pc.globalCompositeOperation = 'source-over';
+  pc.fillStyle = '#16211d'; pc.fillRect(0, 0, 400, 500);
+  for (let i = 0; i < 46; i++){
+    const x = Math.random()*400, y = Math.random()*500, r = 30 + Math.random()*120, c = pal[Math.floor(Math.random()*pal.length)];
+    const g = pc.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, c + 'aa'); g.addColorStop(1, c + '00');
+    pc.fillStyle = g; pc.fillRect(x - r, y - r, r*2, r*2);
+  }
+  pc.lineCap = 'round';
+  for (let i = 0; i < 26; i++){
+    pc.strokeStyle = pal[Math.floor(Math.random()*pal.length)] + '66'; pc.lineWidth = 4 + Math.random()*14;
+    pc.beginPath(); const x = Math.random()*400, y = Math.random()*500; pc.moveTo(x, y);
+    pc.bezierCurveTo(x + (Math.random()-.5)*200, y + (Math.random()-.5)*200, x + (Math.random()-.5)*200, y + (Math.random()-.5)*200, x + (Math.random()-.5)*260, y + (Math.random()-.5)*260);
+    pc.stroke();
+  }
+  pc.globalCompositeOperation = 'multiply';
+  const v = pc.createRadialGradient(200, 230, 60, 200, 250, 320); v.addColorStop(0, '#ffffff'); v.addColorStop(1, '#3a3a3a');
+  pc.fillStyle = v; pc.fillRect(0, 0, 400, 500);
+  pc.globalCompositeOperation = 'source-over';
+}
+function nextQuote(){
+  qi = (qi + 1) % quotes.length; const q = $('#quote');
+  q.classList.add('fade'); setTimeout(() => { q.textContent = `«${quotes[qi]}»`; q.classList.remove('fade'); }, reduce ? 0 : 300);
+}
+$('#repaint').addEventListener('click', () => { paint(); nextQuote(); });
+paint(); qi = 0; $('#quote').textContent = `«${quotes[0]}»`;
+
+/* Candle */
+const cw = $('#candle');
+const moveCandle = e => { const r = cw.getBoundingClientRect(); cw.style.setProperty('--x', (e.clientX - r.left) + 'px'); cw.style.setProperty('--y', (e.clientY - r.top) + 'px'); };
+cw.addEventListener('pointermove', moveCandle);
+cw.addEventListener('pointerdown', moveCandle);
+$('#lightAll').addEventListener('click', e => { cw.classList.add('lit'); e.currentTarget.textContent = 'Velas encendidas'; e.currentTarget.disabled = true; });
+
+/* Tomb kisses */
+const tomb = $('#tomb'); let kisses = 0;
+const lips = ['var(--lip-a)','var(--lip-b)','var(--lip-c)'];
+function kiss(x, y){
+  const k = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  k.setAttribute('viewBox','0 0 40 26'); k.setAttribute('class','kiss'); k.setAttribute('aria-hidden','true');
+  const rot = `rotate(${(Math.random()*50-25).toFixed(0)}deg)`; k.style.setProperty('--r', rot); k.style.transform = rot;
+  k.style.left = (x - 23) + 'px'; k.style.top = (y - 15) + 'px';
+  const c = lips[Math.floor(Math.random()*lips.length)];
+  k.innerHTML = `<path d="M2 13C7 4 15 3 20 8c5-5 13-4 18 5-7 10-29 10-36 0z" style="fill:${c}"/><path d="M4 13c10 3 22 3 32 0" stroke="rgba(0,0,0,.35)" stroke-width="1.4" fill="none"/>`;
+  tomb.appendChild(k); kisses++;
+  const all = tomb.querySelectorAll('.kiss'); if (all.length > 70) all[0].remove();
+}
+tomb.addEventListener('click', e => { if (e.target.closest('#carnation')) return; const r = tomb.getBoundingClientRect(); kiss(e.clientX - r.left, e.clientY - r.top); });
+tomb.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); const r = tomb.getBoundingClientRect(); kiss(r.width*(.2+Math.random()*.6), r.height*(.2+Math.random()*.6)); } });
+$('#carnation').addEventListener('click', e => {
+  e.stopPropagation(); const s = $('#secret'); s.hidden = false;
+  s.textContent = 'Lo encontraste. Wilde llevaba un clavel verde para que los suyos lo reconocieran. Ahora eres de los míos.';
+});
+
+/* Books */
+const books = [
+  {t:'El retrato de Dorian Gray', c:'#2e4a3a', h:240, n:'El primer libro que leí porque me lo recomendaste.'},
+  {t:'A Little Life', c:'#6b2a36', h:212, n:'Tu novela favorita. Pronto la leeré. Lo que me dijiste de ella está arriba, debajo de la niebla.'},
+  {t:'Bukowski', c:'#4a4032', h:190, n:'La frase de Bukowski que te enseñé. No la pongo aquí, esa es solo tuya.'},
+  {t:'Drácula', c:'#1f1f26', h:228, n:'Todavía no lo he leído, pero lo voy a leer.'}
+];
+const bk = $('#books'), note = $('#bookNote');
+books.forEach((b, i) => {
+  const s = document.createElement('button'); s.className = 'spine'; s.style.setProperty('--c', b.c); s.style.setProperty('--h', b.h + 'px');
+  s.textContent = b.t; s.setAttribute('aria-pressed', i === 0);
+  s.addEventListener('click', () => { bk.querySelectorAll('.spine').forEach(x => x.setAttribute('aria-pressed','false')); s.setAttribute('aria-pressed','true'); showBook(b); });
+  bk.appendChild(s);
+});
+function showBook(b){ note.innerHTML = `<h3>${b.t}</h3><p>${b.n}</p>`; }
+showBook(books[0]);
+
+/* Invitation */
+function accept(kind){
+  $('#invite').classList.add('yes');
+  $('#reply').textContent = kind === 'teatro' ? 'Teatro entonces. Dime qué día.' : 'A comer entonces. Dime qué día.';
+  if (!reduce) for (let i = 0; i < 28; i++){
+    const p = document.createElement('span'); p.className = 'petal';
+    p.style.left = Math.random()*100 + 'vw'; p.style.animationDuration = (2.6 + Math.random()*2.4) + 's'; p.style.animationDelay = (Math.random()*0.8) + 's';
+    p.style.opacity = (0.6 + Math.random()*0.4).toFixed(2); p.style.width = p.style.height = (10 + Math.random()*12) + 'px';
+    document.body.appendChild(p); setTimeout(() => p.remove(), 6000);
+  }
+}
+$('#yesTheatre').addEventListener('click', () => accept('teatro'));
+$('#yesFood').addEventListener('click', () => accept('comer'));
+
+})();
+</script>
+
+</html>
